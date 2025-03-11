@@ -43,6 +43,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "shoulda-matchers"
   gem "faker"
+  gem 'rack-cors'
 end
 
 group :test do
