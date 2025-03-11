@@ -5,6 +5,6 @@ class Subscription < ApplicationRecord
 
   validates :title, presence: true
   validates :price, presence: true
-  validates :is_active, presence: true
+  validates :is_active, inclusion: { in: [true, false] }
   validates :frequency, presence: true
 end
