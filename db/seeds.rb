@@ -8,6 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+CustomerSubscription.destroy_all
 SubscriptionTea.destroy_all
 Subscription.destroy_all
 Customer.destroy_all
@@ -17,10 +18,10 @@ require "faker"
 
 10.times do
   Customer.create!(
-  first_name: Faker::Name.first_name,
-  last_name: Faker::Name.last_name,
-  email: Faker::Internet.email,
-  address: Faker::Address.full_address
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    address: Faker::Address.full_address
   )
 end
 
@@ -37,14 +38,19 @@ end
   Subscription.create!(
     title: "#{Faker::Tea.variety} Subscription",
     price: Faker::Commerce.price(range: 5.0..20.0),
-    is_active: [true, false].sample,
-    frequency: %w[weekly bi-weekly monthly].sample,
-    customer: Customer.all.sample
+    frequency: %w[weekly bi-weekly monthly].sample
   )
 end
 
+Customer.all.each do |customer|
+  subscriptions = Subscription.all.sample(rand(1..3))
+  subscriptions.each do |subscription|
+    CustomerSubscription.create!(customer: customer, subscription: subscription, is_active: true) 
+  end
+end
+
 Subscription.all.each do |subscription|
-  teas = Tea.all.sample(rand(1..3)) 
+  teas = Tea.all.sample(rand(1..3))
   teas.each do |tea|
     SubscriptionTea.create!(subscription: subscription, tea: tea)
   end
