@@ -5,15 +5,7 @@ class Api::V1::SubscriptionsController < ApplicationController
   end
 
   def show
-    id = params[:id]
-    subscription = Subscription.find(id)
-    render json: SubscriptionSerializer.new(subscription), status: :ok
-  end
-
-  def update
-    id = params[:id]
-    subscription = Subscription.find(id)
-    subscription.update(is_active: false)
-    render json: SubscriptionSerializer.new(subscription), status: :ok
+    subscription = Subscription.add_teas_and_customers(params[:id]) 
+    render json: SubscriptionSerializer.new(subscription, include: [:teas, :customers]), status: :ok
   end
 end
