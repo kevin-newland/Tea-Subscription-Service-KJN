@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :subscriptions, only: [:index, :show, :update]
-      resources :customer_subscriptions, only: [:update]
+      patch "/customer_subscriptions/:customer_id/:subscription_id", to: "customer_subscriptions#update"
     end
   end
 end
